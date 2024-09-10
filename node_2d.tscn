@@ -1,0 +1,193 @@
+[gd_scene load_steps=15 format=3 uid="uid://dmle71hl1lben"]
+
+[ext_resource type="Shader" path="res://paddle.gdshader" id="1_2b43x"]
+[ext_resource type="Script" path="res://pong.gd" id="1_e6flh"]
+[ext_resource type="Script" path="res://ball.gd" id="3_v8x6m"]
+[ext_resource type="Shader" path="res://dotted_line.gdshader" id="4_1pfph"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_irnbb"]
+size = Vector2(30, 120)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_biotr"]
+shader = ExtResource("1_2b43x")
+shader_parameter/color = Color(1, 1, 1, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_vcyi5"]
+size = Vector2(30, 120)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5wvhy"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_x72c4"]
+radius = 10.0
+height = 20.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_qj3qf"]
+font_size = 36
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n05pn"]
+shader = ExtResource("4_1pfph")
+shader_parameter/dotFrequency = 11.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_kwf2l"]
+size = Vector2(15, 648)
+
+[sub_resource type="LabelSettings" id="LabelSettings_xm6ko"]
+font_size = 36
+
+[sub_resource type="LabelSettings" id="LabelSettings_joysa"]
+font_size = 36
+
+[node name="Pong" type="Node2D"]
+script = ExtResource("1_e6flh")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0.0962047, 0.0962048, 0.0962047, 1)
+
+[node name="RightPaddleArea2D" type="Area2D" parent="."]
+position = Vector2(1065, 332)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightPaddleArea2D"]
+shape = SubResource("RectangleShape2D_irnbb")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="RightPaddleArea2D"]
+material = SubResource("ShaderMaterial_biotr")
+mesh = SubResource("QuadMesh_vcyi5")
+
+[node name="LeftPaddleArea2D" type="Area2D" parent="."]
+position = Vector2(92, 324)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftPaddleArea2D"]
+shape = SubResource("RectangleShape2D_irnbb")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="LeftPaddleArea2D"]
+material = SubResource("ShaderMaterial_biotr")
+mesh = SubResource("QuadMesh_vcyi5")
+
+[node name="BallArea2D" type="Area2D" parent="."]
+position = Vector2(608, 340)
+script = ExtResource("3_v8x6m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BallArea2D"]
+shape = SubResource("CircleShape2D_5wvhy")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="BallArea2D"]
+mesh = SubResource("SphereMesh_x72c4")
+
+[node name="LeftScoreLabel" type="Label" parent="."]
+offset_left = 486.0
+offset_top = 29.0
+offset_right = 526.0
+offset_bottom = 79.0
+text = "0"
+label_settings = SubResource("LabelSettings_qj3qf")
+
+[node name="RightScoreLabel" type="Label" parent="."]
+offset_left = 662.0
+offset_top = 27.0
+offset_right = 702.0
+offset_bottom = 77.0
+text = "0"
+label_settings = SubResource("LabelSettings_qj3qf")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+material = SubResource("ShaderMaterial_n05pn")
+position = Vector2(586, 324)
+mesh = SubResource("QuadMesh_kwf2l")
+
+[node name="PauseControl" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 385.0
+offset_top = 121.0
+offset_right = 811.0
+offset_bottom = 413.0
+
+[node name="ColorRect" type="ColorRect" parent="PauseControl"]
+layout_mode = 0
+offset_right = 419.0
+offset_bottom = 476.0
+color = Color(0.223103, 0.223103, 0.223103, 1)
+
+[node name="CheckBox" type="CheckBox" parent="PauseControl"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 80.0
+offset_right = 374.0
+offset_bottom = 148.0
+theme_override_font_sizes/font_size = 36
+text = "Two Player Mode"
+
+[node name="Button" type="Button" parent="PauseControl"]
+layout_mode = 0
+offset_left = 106.0
+offset_top = 252.0
+offset_right = 315.0
+offset_bottom = 309.0
+theme_override_font_sizes/font_size = 35
+text = "Play"
+
+[node name="QuitButton" type="Button" parent="PauseControl"]
+layout_mode = 0
+offset_left = 106.0
+offset_top = 336.0
+offset_right = 315.0
+offset_bottom = 393.0
+theme_override_font_sizes/font_size = 35
+text = "Quit"
+
+[node name="OptionButton" type="OptionButton" parent="PauseControl"]
+layout_mode = 0
+offset_left = 228.0
+offset_top = 17.0
+offset_right = 404.0
+offset_bottom = 75.0
+theme_override_font_sizes/font_size = 36
+selected = 0
+item_count = 3
+popup/item_0/text = "Easy"
+popup/item_1/text = "Medium"
+popup/item_1/id = 1
+popup/item_2/text = "Hard"
+popup/item_2/id = 2
+
+[node name="Label" type="Label" parent="PauseControl"]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 21.0
+offset_right = 180.0
+offset_bottom = 84.0
+text = "Difficulty
+"
+label_settings = SubResource("LabelSettings_xm6ko")
+
+[node name="Label" type="Label" parent="PauseControl/Label"]
+offset_left = 15.0
+offset_top = 139.0
+offset_right = 194.0
+offset_bottom = 202.0
+text = "Max Score"
+label_settings = SubResource("LabelSettings_xm6ko")
+
+[node name="WinnerLabel" type="Label" parent="PauseControl"]
+layout_mode = 0
+offset_left = 87.0
+offset_top = 408.0
+offset_right = 347.0
+offset_bottom = 472.0
+text = "Player X Won!"
+label_settings = SubResource("LabelSettings_joysa")
+
+[node name="LineEdit" type="LineEdit" parent="PauseControl"]
+layout_mode = 0
+offset_left = 239.0
+offset_top = 157.0
+offset_right = 379.0
+offset_bottom = 215.0
+theme_override_font_sizes/font_size = 36
+text = "5"
+
+[connection signal="area_entered" from="BallArea2D" to="BallArea2D" method="_on_area_entered"]
+[connection signal="pressed" from="PauseControl/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="PauseControl/QuitButton" to="." method="_on_quit_button_pressed"]
